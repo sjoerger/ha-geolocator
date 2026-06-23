@@ -70,3 +70,15 @@ class GeoNamesAPI(GeoLocatorAPI):
     def extract_country(self, data):
         place_top = self._get_top_result(data.get("place", {}))
         return place_top.get("countryName")
+
+    def extract_postcode(self, data):
+        reverse_top = self._get_top_result(data.get("reverse", {}))
+        return reverse_top.get("postalcode")
+
+    def extract_country_code(self, data):
+        reverse_top = self._get_top_result(data.get("reverse", {}))
+        return reverse_top.get("countryCode")
+
+    def extract_county(self, data):
+        reverse_top = self._get_top_result(data.get("reverse", {}))
+        return reverse_top.get("adminName2")

@@ -104,16 +104,15 @@ This flexibility allows for maximum control over polling rates, and updates.
 | `sensor.ha_geolocator_locality` | City, town, or village name | All APIs |
 | `sensor.ha_geolocator_state` | State / province name | All APIs |
 | `sensor.ha_geolocator_country` | Country name | All APIs |
-| `sensor.ha_geolocator_county` | County / sub-region name | BigDataCloud only† |
-| `sensor.ha_geolocator_country_code` | ISO 3166-1 country code (`US`) | BigDataCloud only† |
-| `sensor.ha_geolocator_postcode` | Postal / ZIP code | BigDataCloud only† |
+| `sensor.ha_geolocator_county` | County / sub-region name | All APIs |
+| `sensor.ha_geolocator_country_code` | ISO 3166-1 country code (`US`) | All APIs |
+| `sensor.ha_geolocator_postcode` | Postal / ZIP code | All APIs |
 | `sensor.ha_geolocator_timezone_id` | Timezone ID (`America/Chicago`) | All APIs + Offline fallback |
 | `sensor.ha_geolocator_timezone` | Timezone (`Central Daylight Time`) | All APIs + Offline fallback |
 | `sensor.ha_geolocator_timezone_abbreviation` | Timezone Abbreviation (`CDT`) | All APIs + Offline fallback |
 | `sensor.ha_geolocator_data_source` | API provider used for current data | All APIs + Offline fallback |
 | `sensor.ha_geolocator_plus_code` | Full [Plus Code](https://maps.google.com/pluscodes/) for current location | All APIs + Offline fallback |
 
-† *County, Country Code, and Postal Code sensors are created for all providers but will only populate with data when using BigDataCloud. Support for additional providers may be added in future.*
 
 > **Offline mode** creates `timezone_id`, `timezone_abbreviation`, `timezone`, `plus_code`, and `data_source` sensors. Address-based sensors require an API and are not available offline.
 
@@ -125,10 +124,10 @@ These are the currently supported APIs. Feel free to submit pull requests for ot
 
 | Results | API Service | Credentials | Notes | Current Address | Localized |
 |:-------:|-------------|-------------|-------|-----------------|:------------:|
-|🟢| **Google Maps**    | `API Key` | Enable Reverse Geocode & Timezone APIs. Add billing to your project. Create an [API key](https://developers.google.com/maps). | Full street address | ✔︎ |
-|🟢| **OpenCage** | `API Key` | [Sign up](https://opencagedata.com) for a free account and retrieve an API key. \**free accounts can make 2,500 requests/day (1 request/second)* | Full street address | ✔︎ |
-|🟡| **GeoNames**       | `Username` | Requires free [user account](https://www.geonames.org/login). After activation, visit [Manage Account](https://www.geonames.org/manageaccount) and enable free web servcies (link at bottom of page).  | Full street address (US only) |
-|🟠| **BigDataCloud**   | None                 | Free - no API key required. | City, County, State, Country, Country Code, Postal Code |
+|🟢| **Google Maps**    | `API Key` | Enable Reverse Geocode & Timezone APIs. Add billing to your project. Create an [API key](https://developers.google.com/maps). | Full street address, County, Postcode, Country Code | ✔︎ |
+|🟢| **OpenCage** | `API Key` | [Sign up](https://opencagedata.com) for a free account and retrieve an API key. \**free accounts can make 2,500 requests/day (1 request/second)* | Full street address, County, Postcode, Country Code | ✔︎ |
+|🟡| **GeoNames**       | `Username` | Requires free [user account](https://www.geonames.org/login). After activation, visit [Manage Account](https://www.geonames.org/manageaccount) and enable free web servcies (link at bottom of page).  | Full street address, County, Postcode, Country Code (US primarily) |
+|🟠| **BigDataCloud**   | None                 | Free - no API key required. | Locality, County, State, Country, Country Code, Postal Code |
 |🟠| **Offline** | None | **No Reverse Geocode!** Some enclaves or borders are less accurate than the API solutions but works 100% locally using the timezonefinder library. | None |
 
 *Only one service is used at a time (with fallback to the local python library). API/user key configuration is available via the UI.*

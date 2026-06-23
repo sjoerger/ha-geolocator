@@ -54,3 +54,22 @@ class OpenCageAPI(GeoLocatorAPI):
             return data["results"][0]["components"].get("country")
         except (IndexError, KeyError):
             return None
+
+    def extract_postcode(self, data):
+        try:
+            return data["results"][0]["components"].get("postcode")
+        except (IndexError, KeyError):
+            return None
+
+    def extract_country_code(self, data):
+        try:
+            code = data["results"][0]["components"].get("country_code")
+            return code.upper() if code else None
+        except (IndexError, KeyError):
+            return None
+
+    def extract_county(self, data):
+        try:
+            return data["results"][0]["components"].get("county")
+        except (IndexError, KeyError):
+            return None
