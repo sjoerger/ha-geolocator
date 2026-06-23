@@ -116,6 +116,8 @@ This flexibility allows for maximum control over polling rates, and updates.
 
 > **Offline mode** creates `timezone_id`, `timezone_abbreviation`, `timezone`, `plus_code`, and `data_source` sensors. Address-based sensors require an API and are not available offline.
 
+> **Note:** County, Country Code, and Postal Code sensor population has been tested end-to-end with BigDataCloud only. Support for these fields is implemented for Google Maps, OpenCage, and GeoNames but has not yet been verified against live API responses.
+
 ---
 
 ## 🌐 Supported Reverse Geocoding APIs
