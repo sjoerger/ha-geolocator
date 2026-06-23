@@ -22,8 +22,8 @@ class OpenCageAPI(GeoLocatorAPI):
                 _LOGGER.debug("OpenCage reverse geocode response: %s", data)
                 return data
 
-    async def get_timezone(self, lat, lon, language="en"):
-        data = await self.reverse_geocode(lat, lon, language)
+    async def get_timezone(self, lat, lon, language="en", geocode_data=None):
+        data = geocode_data if geocode_data is not None else await self.reverse_geocode(lat, lon, language)
         try:
             return data["results"][0]["annotations"]["timezone"]["name"]
         except (IndexError, KeyError):
