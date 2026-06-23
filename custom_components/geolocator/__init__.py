@@ -61,6 +61,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     else:
         raise ValueError(f"Unsupported API provider: {provider}")
 
+    timezone_finder = await hass.async_add_executor_job(lambda: TimezoneFinder(in_memory=True))
+
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = {
         "api": api,
         "entry": entry,
@@ -68,6 +70,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         "last_timezone": None,
         "last_timezone_source": None,
         "entities": [],
+        "timezone_finder": timezone_finder,
     }
 
     async def async_update_location_service(call: ServiceCall | None = None):
@@ -101,8 +104,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
             if not timezone_id:
                 try:
+                    tf = hass.data[DOMAIN][entry.entry_id]["timezone_finder"]
+
                     def _find_timezone():
-                        tf = TimezoneFinder(in_memory=True)
                         try:
                             return tf.timezone_at(lat=lat, lng=lon)
                         except Exception as e:
