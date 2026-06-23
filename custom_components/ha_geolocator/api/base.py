@@ -12,6 +12,9 @@ class GeoLocatorAPI:
         """Return an IANA time zone string."""
         raise NotImplementedError
 
+    def extract_locality(self, data) -> str | None:
+        return None
+
     def extract_postcode(self, data) -> str | None:
         return None
 

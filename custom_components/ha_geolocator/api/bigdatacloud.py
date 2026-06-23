@@ -41,7 +41,7 @@ class BigDataCloudAPI(GeoLocatorAPI):
     def extract_neighborhood(self, data):
         return None
 
-    def extract_city(self, data):
+    def extract_locality(self, data):
         return data.get("locality")
 
     def extract_state_long(self, data):

@@ -34,7 +34,7 @@ class OpenCageAPI(GeoLocatorAPI):
         except (IndexError, KeyError):
             return ""
 
-    def extract_city(self, data):
+    def extract_locality(self, data):
         try:
             return data["results"][0]["components"].get("city") or \
                    data["results"][0]["components"].get("town") or \

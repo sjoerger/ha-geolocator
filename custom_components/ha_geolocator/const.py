@@ -14,6 +14,17 @@ ATTR_TIMESTAMP = "timestamp"
 TIMEZONE_SENSOR = "current_timezone"
 LOCATION_SENSOR = "current_location"
 
+ALL_SENSOR_KEYS = frozenset({
+    "current_address", "locality", "county", "state", "country",
+    "country_code", "postcode", "timezone_id", "timezone_full",
+    "timezone_abbreviation", "timezone_source", "plus_code",
+})
+
+OFFLINE_SENSOR_KEYS = frozenset({
+    "timezone_id", "timezone_full", "timezone_abbreviation",
+    "timezone_source", "plus_code",
+})
+
 API_PROVIDER_META = {
     "google": {"name": "Google Maps", "needs_key": True},
     "opencage": {"name": "OpenCage", "needs_key": True},

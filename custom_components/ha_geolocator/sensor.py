@@ -11,7 +11,7 @@ from .const import DOMAIN
 
 SENSOR_KEYS = {
     "current_address": "Current Address",
-    "city": "City",
+    "locality": "Locality",
     "county": "County",
     "state": "State",
     "country": "Country",
@@ -26,7 +26,7 @@ SENSOR_KEYS = {
 
 SENSOR_ICONS = {
     "current_address": "mdi:map-marker",
-    "city": "mdi:city",
+    "locality": "mdi:city",
     "county": "mdi:map-marker-radius",
     "state": "mdi:flag-variant",
     "country": "mdi:earth",
@@ -46,7 +46,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
     provider = entry.options.get("api_provider") or entry.data.get("api_provider", "google")
 
     for key, name in SENSOR_KEYS.items():
-        if provider == "offline" and key not in ("timezone_id", "timezone_abbreviation", "timezone_full", "timezone_source", "plus_code"):
+        if provider == "offline" and key not in ("timezone_id", "timezone_abbreviation", "timezone_full", "timezone_source", "plus_code"):  # matches OFFLINE_SENSOR_KEYS
             continue
         if key == "timezone_source":
             sensors.append(TimezoneSourceSensor(hass=hass, entry=entry))
