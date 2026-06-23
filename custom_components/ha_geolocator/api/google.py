@@ -33,11 +33,11 @@ class GoogleMapsAPI(GeoLocatorAPI):
             _LOGGER.debug("Google Timezone API response: %s", data)
             return data.get("timeZoneId")
 
-    def _get_component(self, data, type_name):
+    def _get_component(self, data, type_name, name_type="long_name"):
         for result in data.get("results", []):
             for comp in result.get("address_components", []):
                 if type_name in comp.get("types", []):
-                    return comp.get("long_name")
+                    return comp.get(name_type)
         return None
 
     def format_full_address(self, data):
@@ -56,3 +56,12 @@ class GoogleMapsAPI(GeoLocatorAPI):
 
     def extract_country(self, data):
         return self._get_component(data, "country")
+
+    def extract_postcode(self, data):
+        return self._get_component(data, "postal_code")
+
+    def extract_country_code(self, data):
+        return self._get_component(data, "country", "short_name")
+
+    def extract_county(self, data):
+        return self._get_component(data, "administrative_area_level_2")
