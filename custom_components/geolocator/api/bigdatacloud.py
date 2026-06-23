@@ -25,8 +25,8 @@ class BigDataCloudAPI(GeoLocatorAPI):
                 _LOGGER.debug("BigDataCloud response: %s", data)
                 return data
 
-    async def get_timezone(self, latitude, longitude, language="en"):
-        data = await self.reverse_geocode(latitude, longitude)
+    async def get_timezone(self, latitude, longitude, language="en", geocode_data=None):
+        data = geocode_data if geocode_data is not None else await self.reverse_geocode(latitude, longitude)
         informative = data.get("localityInfo", {}).get("informative", [])
         for item in informative:
             if item.get("description", "").lower() == "time zone":
