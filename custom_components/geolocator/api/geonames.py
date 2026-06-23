@@ -1,4 +1,3 @@
-import aiohttp
 from .base import GeoLocatorAPI
 
 GEONAMES_REVERSE_URL = "http://api.geonames.org/findNearestAddressJSON"
@@ -6,27 +5,26 @@ GEONAMES_PLACE_URL = "http://api.geonames.org/findNearbyPlaceNameJSON"
 GEONAMES_TIMEZONE_URL = "http://api.geonames.org/timezoneJSON"
 
 class GeoNamesAPI(GeoLocatorAPI):
-    def __init__(self, username: str):
+    def __init__(self, username: str, session):
+        super().__init__(session)
         self.username = username
 
     async def reverse_geocode(self, lat, lon, language="en"):
-        async with aiohttp.ClientSession() as session:
-            reverse_resp = await session.get(GEONAMES_REVERSE_URL, params={"lat": lat, "lng": lon, "username": self.username})
-            place_resp = await session.get(GEONAMES_PLACE_URL, params={"lat": lat, "lng": lon, "username": self.username, "cities": "cities500"})
+        async with self.session.get(GEONAMES_REVERSE_URL, params={"lat": lat, "lng": lon, "username": self.username}) as reverse_resp:
             reverse_data = await reverse_resp.json()
+        async with self.session.get(GEONAMES_PLACE_URL, params={"lat": lat, "lng": lon, "username": self.username, "cities": "cities500"}) as place_resp:
             place_data = await place_resp.json()
-            return {"reverse": reverse_data, "place": place_data}
+        return {"reverse": reverse_data, "place": place_data}
 
-    async def get_timezone(self, lat, lon, language="en"):
+    async def get_timezone(self, lat, lon, language="en", geocode_data=None):
         params = {
             "lat": lat,
             "lng": lon,
             "username": self.username,
         }
-        async with aiohttp.ClientSession() as session:
-            async with session.get(GEONAMES_TIMEZONE_URL, params=params) as resp:
-                data = await resp.json()
-                return data.get("timezoneId")
+        async with self.session.get(GEONAMES_TIMEZONE_URL, params=params) as resp:
+            data = await resp.json()
+            return data.get("timezoneId")
 
     def _get_top_result(self, data):
         if "geonames" in data:
@@ -39,26 +37,21 @@ class GeoNamesAPI(GeoLocatorAPI):
         reverse_top = self._get_top_result(data.get("reverse", {}))
         place_top = self._get_top_result(data.get("place", {}))
 
-        # Combine street number + street (no comma)
         street_number = reverse_top.get("streetNumber")
         street = reverse_top.get("street")
         street_line = f"{street_number} {street}".strip() if street or street_number else None
 
-        # City / locality with fallback
         placename = reverse_top.get("placename")
         if not placename:
-            placename = place_top.get("name")  # Fallback to populated place name
+            placename = place_top.get("name")
 
-        # Combine state + postal code (no comma)
         admin = reverse_top.get("adminCode1")
         postal = reverse_top.get("postalcode")
         region_line = f"{admin} {postal}".strip() if admin or postal else None
 
         country = place_top.get("countryName")
 
-        # Final join with correct commas
         return ", ".join(filter(None, [street_line, placename, region_line, country]))
-
 
     def extract_city(self, data):
         reverse_top = self._get_top_result(data.get("reverse", {}))
@@ -66,7 +59,7 @@ class GeoNamesAPI(GeoLocatorAPI):
 
         if not city:
             place_top = self._get_top_result(data.get("place", {}))
-            city = place_top.get("name")  # Fallback to nearby populated place name
+            city = place_top.get("name")
 
         return city
 

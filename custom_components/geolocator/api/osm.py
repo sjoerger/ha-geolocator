@@ -1,4 +1,3 @@
-import aiohttp
 from .base import GeoLocatorAPI
 
 NOMINATIM_URL = "https://nominatim.openstreetmap.org/reverse"
@@ -6,26 +5,21 @@ NOMINATIM_URL = "https://nominatim.openstreetmap.org/reverse"
 class OSMAPI(GeoLocatorAPI):
     """GeoLocator API using OpenStreetMap's Nominatim service."""
 
-    def __init__(self, user_agent: str = "geo_locator_home_assistant"):
+    def __init__(self, session, user_agent: str = "geo_locator_home_assistant"):
+        super().__init__(session)
         self.user_agent = user_agent
 
-    async def reverse_geocode(self, latitude, longitude):
-        headers = {
-            "User-Agent": self.user_agent
-        }
+    async def reverse_geocode(self, latitude, longitude, language="en"):
         params = {
             "lat": latitude,
             "lon": longitude,
             "format": "jsonv2",
             "addressdetails": 1,
         }
+        async with self.session.get(NOMINATIM_URL, params=params, headers={"User-Agent": self.user_agent}) as resp:
+            return await resp.json()
 
-        async with aiohttp.ClientSession(headers=headers) as session:
-            async with session.get(NOMINATIM_URL, params=params) as resp:
-                return await resp.json()
-
-    async def get_timezone(self, latitude, longitude):
-        # OSM does not provide timezone info
+    async def get_timezone(self, latitude, longitude, language="en", geocode_data=None):
         return None
 
     def format_full_address(self, data):

@@ -5,6 +5,7 @@ from homeassistant.core import HomeAssistant, ServiceCall
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.service import async_register_admin_service
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import DOMAIN, SERVICE_SET_TIMEZONE, SERVICE_UPDATE_LOCATION, API_PROVIDER_META
 from .api.google import GoogleMapsAPI
@@ -48,14 +49,16 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     else:
         _LOGGER.info("GeoLocator: Using API provider: %s", provider)
 
+    session = async_get_clientsession(hass)
+
     if provider == "google":
-        api = GoogleMapsAPI(api_key)
+        api = GoogleMapsAPI(api_key, session)
     elif provider == "opencage":
-        api = OpenCageAPI(api_key)
+        api = OpenCageAPI(api_key, session)
     elif provider == "geonames":
-        api = GeoNamesAPI(api_key)
+        api = GeoNamesAPI(api_key, session)
     elif provider == "bigdatacloud":
-        api = BigDataCloudAPI()
+        api = BigDataCloudAPI(session)
     elif provider == "offline":
         api = None
     else:

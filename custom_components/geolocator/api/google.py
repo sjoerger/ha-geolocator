@@ -1,40 +1,37 @@
-import aiohttp
+import time
+import logging
 from .base import GeoLocatorAPI
+
+_LOGGER = logging.getLogger(__name__)
 
 GEOCODE_URL = "https://maps.googleapis.com/maps/api/geocode/json"
 TIMEZONE_URL = "https://maps.googleapis.com/maps/api/timezone/json"
 
 class GoogleMapsAPI(GeoLocatorAPI):
-    def __init__(self, api_key, language="en"):
+    def __init__(self, api_key, session):
+        super().__init__(session)
         self.api_key = api_key
 
     async def reverse_geocode(self, lat, lon, language="en"):
-        async with aiohttp.ClientSession() as session:
-            params = {
-                "latlng": f"{lat},{lon}",
-                "key": self.api_key,
-                "language": language,
-            }
-            async with session.get(GEOCODE_URL, params=params) as resp:
-                return await resp.json()
+        params = {
+            "latlng": f"{lat},{lon}",
+            "key": self.api_key,
+            "language": language,
+        }
+        async with self.session.get(GEOCODE_URL, params=params) as resp:
+            return await resp.json()
 
-    async def get_timezone(self, lat, lon, language="en"):
-        import time
-        import logging
-        _LOGGER = logging.getLogger(__name__)
-
-        timestamp = int(time.time())
-        async with aiohttp.ClientSession() as session:
-            params = {
-                "location": f"{lat},{lon}",
-                "timestamp": timestamp,
-                "key": self.api_key,
-                "language": language,
-            }
-            async with session.get(TIMEZONE_URL, params=params) as resp:
-                data = await resp.json()
-                _LOGGER.debug("Google Timezone API response: %s", data)
-                return data.get("timeZoneId")
+    async def get_timezone(self, lat, lon, language="en", geocode_data=None):
+        params = {
+            "location": f"{lat},{lon}",
+            "timestamp": int(time.time()),
+            "key": self.api_key,
+            "language": language,
+        }
+        async with self.session.get(TIMEZONE_URL, params=params) as resp:
+            data = await resp.json()
+            _LOGGER.debug("Google Timezone API response: %s", data)
+            return data.get("timeZoneId")
 
     def _get_component(self, data, type_name):
         for result in data.get("results", []):
