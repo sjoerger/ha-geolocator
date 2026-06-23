@@ -147,7 +147,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 _LOGGER.warning("GeoLocator: Failed to get full timezone name: %s", e)
                 full_name = None
 
-            hass.data[DOMAIN][entry.entry_id]["last_address"] = address_data
+            if address_data:
+                hass.data[DOMAIN][entry.entry_id]["last_address"] = address_data
             hass.data[DOMAIN][entry.entry_id]["last_timezone"] = timezone_id
             hass.data[DOMAIN][entry.entry_id]["last_timezone_source"] = source
             hass.data[DOMAIN][entry.entry_id]["last_plus_code"] = plus_code
