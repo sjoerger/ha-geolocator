@@ -53,7 +53,7 @@ class GeoNamesAPI(GeoLocatorAPI):
 
         return ", ".join(filter(None, [street_line, placename, region_line, country]))
 
-    def extract_city(self, data):
+    def extract_locality(self, data):
         reverse_top = self._get_top_result(data.get("reverse", {}))
         city = reverse_top.get("placename")
 

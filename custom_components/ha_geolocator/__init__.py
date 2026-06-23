@@ -7,7 +7,9 @@ from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.service import async_register_admin_service
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-from .const import DOMAIN, SERVICE_SET_TIMEZONE, SERVICE_UPDATE_LOCATION, API_PROVIDER_META
+from homeassistant.helpers import entity_registry as er
+
+from .const import DOMAIN, SERVICE_SET_TIMEZONE, SERVICE_UPDATE_LOCATION, API_PROVIDER_META, ALL_SENSOR_KEYS, OFFLINE_SENSOR_KEYS
 from .api.google import GoogleMapsAPI
 from .api.opencage import OpenCageAPI
 from .api.geonames import GeoNamesAPI
@@ -95,7 +97,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
                     address_data = {
                         "current_address": api.format_full_address(geocode_raw),
-                        "city": api.extract_city(geocode_raw),
+                        "locality": api.extract_locality(geocode_raw),
                         "county": api.extract_county(geocode_raw),
                         "state": api.extract_state_long(geocode_raw),
                         "country": api.extract_country(geocode_raw),
@@ -187,6 +189,18 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     hass.services.async_register(DOMAIN, SERVICE_UPDATE_LOCATION, async_update_location_service)
 
     await hass.config_entries.async_forward_entry_setups(entry, ["sensor"])
+
+    # Remove any entities that are no longer expected for the current provider
+    active_keys = OFFLINE_SENSOR_KEYS if provider == "offline" else ALL_SENSOR_KEYS
+    expected_unique_ids = {
+        f"{entry.entry_id}_data_source" if k == "timezone_source" else f"{entry.entry_id}_{k}"
+        for k in active_keys
+    }
+    ent_reg = er.async_get(hass)
+    for entity_entry in er.async_entries_for_config_entry(ent_reg, entry.entry_id):
+        if entity_entry.unique_id not in expected_unique_ids:
+            _LOGGER.debug("HA GeoLocator: Removing stale entity %s", entity_entry.entity_id)
+            ent_reg.async_remove(entity_entry.entity_id)
 
     await async_update_location_service()
     entry.async_on_unload(entry.add_update_listener(async_reload_entry))

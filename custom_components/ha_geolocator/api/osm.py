@@ -28,7 +28,7 @@ class OSMAPI(GeoLocatorAPI):
     def extract_neighborhood(self, data):
         return data.get("address", {}).get("neighbourhood")
 
-    def extract_city(self, data):
+    def extract_locality(self, data):
         return data.get("address", {}).get("city") or \
                data.get("address", {}).get("town") or \
                data.get("address", {}).get("village")

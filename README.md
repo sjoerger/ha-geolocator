@@ -101,7 +101,7 @@ This flexibility allows for maximum control over polling rates, and updates.
 | Entity | Description | Available with |
 |:-------|:------------|:------|
 | `sensor.ha_geolocator_current_address` | Formatted location address | All APIs |
-| `sensor.ha_geolocator_city` | City name | All APIs |
+| `sensor.ha_geolocator_locality` | City, town, or village name | All APIs |
 | `sensor.ha_geolocator_state` | State / province name | All APIs |
 | `sensor.ha_geolocator_country` | Country name | All APIs |
 | `sensor.ha_geolocator_county` | County / sub-region name | BigDataCloud only† |

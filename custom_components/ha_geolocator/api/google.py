@@ -48,7 +48,7 @@ class GoogleMapsAPI(GeoLocatorAPI):
     def extract_neighborhood(self, data):
         return self._get_component(data, "neighborhood")
 
-    def extract_city(self, data):
+    def extract_locality(self, data):
         return self._get_component(data, "locality")
 
     def extract_state_long(self, data):
