@@ -1,6 +1,4 @@
-# custom_components/geolocator/const.py
-
-DOMAIN = "geolocator"
+DOMAIN = "ha_geolocator"
 
 CONF_API_PROVIDER = "api_provider"
 CONF_API_KEY = "api_key"

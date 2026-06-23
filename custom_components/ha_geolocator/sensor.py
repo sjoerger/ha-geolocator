@@ -56,7 +56,7 @@ class GeoLocatorSensor(SensorEntity):
         self._key = key
         self._name = name
         self._api_data = api_data
-        self._attr_name = f"GeoLocator: {name}"
+        self._attr_name = f"HA GeoLocator: {name}"
         self._attr_unique_id = f"{entry.entry_id}_{key}"
         self._attr_icon = SENSOR_ICONS.get(key, "mdi:map-marker-question")
 
@@ -93,7 +93,7 @@ class TimezoneSourceSensor(SensorEntity):
     def __init__(self, hass, entry):
         self._hass = hass
         self._entry = entry
-        self._attr_name = "GeoLocator: Data Source"
+        self._attr_name = "HA GeoLocator: Data Source"
         self._attr_unique_id = f"{entry.entry_id}_data_source"
         self._attr_icon = SENSOR_ICONS.get("timezone_source", "mdi:cloud-question")
 

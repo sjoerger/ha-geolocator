@@ -45,7 +45,7 @@ class GeoLocatorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         if user_input is not None:
             return self.async_create_entry(
-                title="GeoLocator",
+                title="HA GeoLocator",
                 data={
                     CONF_API_PROVIDER: provider,
                     CONF_API_KEY: user_input.get(CONF_API_KEY, "")
@@ -62,7 +62,7 @@ class GeoLocatorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         else:
             # Skip credentials step if not needed
             return self.async_create_entry(
-                title="GeoLocator",
+                title="HA GeoLocator",
                 data={CONF_API_PROVIDER: provider, CONF_API_KEY: ""}
             )
 

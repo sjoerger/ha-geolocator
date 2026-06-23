@@ -1,10 +1,10 @@
 {
-  "title": "GeoLocator",
+  "title": "HA GeoLocator",
 
   "config": {
     "step": {
       "user": {
-        "title": "Setup GeoLocator",
+        "title": "Setup HA GeoLocator",
         "description": "Choose a geolocation API and provide credentials if required.",
         "data": {
           "api_provider": "API Provider",
@@ -32,14 +32,14 @@
       "unknown": "An unknown error occurred."
     },
     "abort": {
-      "already_configured": "GeoLocator is already configured."
+      "already_configured": "HA GeoLocator is already configured."
     }
   },
 
   "options": {
     "step": {
       "init": {
-        "title": "GeoLocator Options",
+        "title": "HA GeoLocator Options",
         "description": "Update the geolocation provider and API credentials.",
         "data": {
           "api_provider": "API Provider",
@@ -69,28 +69,28 @@
 
   "entity": {
     "sensor": {
-      "geolocator_current_address": {
+      "ha_geolocator_current_address": {
         "name": "Current Address"
       },
-      "geolocator_neighborhood": {
+      "ha_geolocator_neighborhood": {
         "name": "Neighborhood"
       },
-      "geolocator_city": {
+      "ha_geolocator_city": {
         "name": "City"
       },
-      "geolocator_state": {
+      "ha_geolocator_state": {
         "name": "State"
       },
-      "geolocator_country": {
+      "ha_geolocator_country": {
         "name": "Country"
       },
-      "geolocator_timezone_id": {
+      "ha_geolocator_timezone_id": {
         "name": "Timezone ID"
       },
-      "geolocator_timezone_name": {
+      "ha_geolocator_timezone_name": {
         "name": "Timezone Name"
       },
-      "geolocator_timezone_abbreviation": {
+      "ha_geolocator_timezone_abbreviation": {
         "name": "Timezone Abbreviation"
       }
     }
