@@ -71,9 +71,9 @@ class GeoNamesAPI(GeoLocatorAPI):
         return city
 
     def extract_state_long(self, data):
-        reverse_top = self._get_top_result(data["reverse"])
+        reverse_top = self._get_top_result(data.get("reverse", {}))
         return reverse_top.get("adminName1")
 
     def extract_country(self, data):
-        place_top = self._get_top_result(data["place"])
+        place_top = self._get_top_result(data.get("place", {}))
         return place_top.get("countryName")
