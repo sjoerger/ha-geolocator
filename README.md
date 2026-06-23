@@ -5,7 +5,7 @@
 
 # HA GeoLocator
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/hacs/integration)
-[![GitHub release](https://img.shields.io/github/v/release/sjoerger/hass-geolocator)](https://github.com/sjoerger/hass-geolocator/releases)
+[![GitHub release](https://img.shields.io/github/v/release/sjoerger/ha-geolocator)](https://github.com/sjoerger/ha-geolocator/releases)
 
 ### WHERE are we
 **HA GeoLocator** is a Home Assistant custom integration that retrieves current reverse geocoded location sensor data based on `zone.home` GPS coordinate attributes using one of several provided reverse geocode API options.
@@ -26,7 +26,7 @@ Designed specifically for moving vehicles (vans, RVs, boats) that *MAY* not alwa
 
 This integration is not yet available in the HACS default store, however you can still install it via [HACS](https://www.hacs.xyz/docs/use/) as a custom repository:
 
-[![Open this repository in your Home Assistant instance.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=sjoerger&repository=hass-geolocator&category=integration)
+[![Open this repository in your Home Assistant instance.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=sjoerger&repository=ha-geolocator&category=integration)
 
 
 1. Click "Open HACS Repository" button above and install HA GeoLocator
@@ -37,7 +37,7 @@ This integration is not yet available in the HACS default store, however you can
 
 ### Or, Manual Installation
 
-1. Download the source code of the [latest release](https://github.com/sjoerger/hass-geolocator/releases).
+1. Download the source code of the [latest release](https://github.com/sjoerger/ha-geolocator/releases).
 2. Unzip the source code download.
 3. Copy **ha_geolocator** from the **custom_components** directory you just downloaded to your Home Assistant **custom_components** directory:
    ```

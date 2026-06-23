@@ -4,9 +4,9 @@
     "codeowners": ["@sjoerger"],
     "config_flow": true,
     "dependencies": [],
-    "documentation": "https://github.com/sjoerger/hass-geolocator",
+    "documentation": "https://github.com/sjoerger/ha-geolocator",
     "iot_class": "cloud_polling",
-    "issue_tracker": "https://github.com/sjoerger/hass-geolocator/issues",
+    "issue_tracker": "https://github.com/sjoerger/ha-geolocator/issues",
     "requirements": ["timezonefinder==4.5.0", "openlocationcode", "Babel>=2.9.0"],
     "version": "0.3.1-beta"
   }
