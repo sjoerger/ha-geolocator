@@ -1,4 +1,3 @@
-import aiohttp
 import logging
 from .base import GeoLocatorAPI
 
@@ -6,21 +5,20 @@ _LOGGER = logging.getLogger(__name__)
 GEOCODE_URL = "https://api.opencagedata.com/geocode/v1/json"
 
 class OpenCageAPI(GeoLocatorAPI):
-    def __init__(self, api_key, language="en"):
+    def __init__(self, api_key, session):
+        super().__init__(session)
         self.api_key = api_key
-        self.language = language
 
     async def reverse_geocode(self, lat, lon, language="en"):
-        async with aiohttp.ClientSession() as session:
-            params = {
-                "q": f"{lat},{lon}",
-                "key": self.api_key,
-                "language": language,
-            }
-            async with session.get(GEOCODE_URL, params=params) as resp:
-                data = await resp.json()
-                _LOGGER.debug("OpenCage reverse geocode response: %s", data)
-                return data
+        params = {
+            "q": f"{lat},{lon}",
+            "key": self.api_key,
+            "language": language,
+        }
+        async with self.session.get(GEOCODE_URL, params=params) as resp:
+            data = await resp.json()
+            _LOGGER.debug("OpenCage reverse geocode response: %s", data)
+            return data
 
     async def get_timezone(self, lat, lon, language="en", geocode_data=None):
         data = geocode_data if geocode_data is not None else await self.reverse_geocode(lat, lon, language)
