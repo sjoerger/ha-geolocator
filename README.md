@@ -112,6 +112,8 @@ This flexibility allows for maximum control over polling rates, and updates.
 
 \* *these sensors are only created/updated when using an API - they will also be unavailable when GeoLocator falls back to the local Python library*
 
+> **Offline mode** creates `timezone_id`, `timezone_abbreviation`, `timezone`, `plus_code`, and `data_source` sensors. Address-based sensors (`current_address`, `city`, `state`, `country`) require an API and are not available offline.
+
 ---
 
 ## 🌐 Supported Reverse Geocoding APIs
