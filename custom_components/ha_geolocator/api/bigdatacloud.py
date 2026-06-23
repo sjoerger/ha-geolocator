@@ -49,3 +49,15 @@ class BigDataCloudAPI(GeoLocatorAPI):
 
     def extract_country(self, data):
         return data.get("countryName")
+
+    def extract_postcode(self, data):
+        return data.get("postcode")
+
+    def extract_country_code(self, data):
+        return data.get("countryCode")
+
+    def extract_county(self, data):
+        for item in data.get("localityInfo", {}).get("administrative", []):
+            if item.get("adminLevel") == 6:
+                return item.get("name")
+        return None

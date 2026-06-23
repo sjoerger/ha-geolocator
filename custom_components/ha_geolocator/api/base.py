@@ -11,3 +11,12 @@ class GeoLocatorAPI:
     async def get_timezone(self, latitude: float, longitude: float, language: str = "en", geocode_data: dict | None = None) -> str:
         """Return an IANA time zone string."""
         raise NotImplementedError
+
+    def extract_postcode(self, data) -> str | None:
+        return None
+
+    def extract_country_code(self, data) -> str | None:
+        return None
+
+    def extract_county(self, data) -> str | None:
+        return None
