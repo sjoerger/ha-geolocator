@@ -96,8 +96,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                     address_data = {
                         "current_address": api.format_full_address(geocode_raw),
                         "city": api.extract_city(geocode_raw),
+                        "county": api.extract_county(geocode_raw),
                         "state": api.extract_state_long(geocode_raw),
                         "country": api.extract_country(geocode_raw),
+                        "country_code": api.extract_country_code(geocode_raw),
+                        "postcode": api.extract_postcode(geocode_raw),
                         "plus_code": plus_code,
                     }
                     source = API_PROVIDER_META[provider]["name"]

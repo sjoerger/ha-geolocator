@@ -102,8 +102,11 @@ This flexibility allows for maximum control over polling rates, and updates.
 |:-------|:------------|:------|
 | `sensor.ha_geolocator_current_address`* | Formatted location address | API |
 | `sensor.ha_geolocator_city`* | City name | API |
-| `sensor.ha_geolocator_state`* | State name | API |
+| `sensor.ha_geolocator_county`* | County / sub-region name | API (BigDataCloud) |
+| `sensor.ha_geolocator_state`* | State / province name | API |
 | `sensor.ha_geolocator_country`* | Country name | API |
+| `sensor.ha_geolocator_country_code`* | ISO 3166-1 country code (`US`) | API (BigDataCloud) |
+| `sensor.ha_geolocator_postcode`* | Postal / ZIP code | API (BigDataCloud) |
 | `sensor.ha_geolocator_timezone_id` | Timezone ID (`America/Chicago`) | API / Local Fallback |
 | `sensor.ha_geolocator_timezone` | Timezone (`Central Daylight Time`) | Local |
 | `sensor.ha_geolocator_timezone_abbreviation` | Timezone Abbreviation (`CDT`) | Local |
@@ -125,7 +128,7 @@ These are the currently supported APIs. Feel free to submit pull requests for ot
 |🟢| **Google Maps**    | `API Key` | Enable Reverse Geocode & Timezone APIs. Add billing to your project. Create an [API key](https://developers.google.com/maps). | Full street address | ✔︎ |
 |🟢| **OpenCage** | `API Key` | [Sign up](https://opencagedata.com) for a free account and retrieve an API key. \**free accounts can make 2,500 requests/day (1 request/second)* | Full street address | ✔︎ |
 |🟡| **GeoNames**       | `Username` | Requires free [user account](https://www.geonames.org/login). After activation, visit [Manage Account](https://www.geonames.org/manageaccount) and enable free web servcies (link at bottom of page).  | Full street address (US only) |
-|🟠| **BigDataCloud**   | None                 | Free - no API key required. | City, State, Country Only |
+|🟠| **BigDataCloud**   | None                 | Free - no API key required. | City, County, State, Country, Country Code, Postal Code |
 |🟠| **Offline** | None | **No Reverse Geocode!** Some enclaves or borders are less accurate than the API solutions but works 100% locally using the timezonefinder library. | None |
 
 *Only one service is used at a time (with fallback to the local python library). API/user key configuration is available via the UI.*

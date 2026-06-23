@@ -12,8 +12,11 @@ from .const import DOMAIN
 SENSOR_KEYS = {
     "current_address": "Current Address",
     "city": "City",
+    "county": "County",
     "state": "State",
     "country": "Country",
+    "country_code": "Country Code",
+    "postcode": "Postal Code",
     "timezone_id": "Timezone ID",
     "timezone_full": "Timezone",
     "timezone_abbreviation": "Timezone Abbreviation",
@@ -24,8 +27,11 @@ SENSOR_KEYS = {
 SENSOR_ICONS = {
     "current_address": "mdi:map-marker",
     "city": "mdi:city",
+    "county": "mdi:map-marker-radius",
     "state": "mdi:flag-variant",
     "country": "mdi:earth",
+    "country_code": "mdi:earth",
+    "postcode": "mdi:mailbox",
     "timezone_id": "mdi:calendar-clock",
     "timezone_full": "mdi:map-clock-outline",
     "timezone_abbreviation": "mdi:map-clock",
