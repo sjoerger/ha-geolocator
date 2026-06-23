@@ -85,7 +85,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 try:
                     user_language = hass.config.language or "en"
                     geocode_raw = await api.reverse_geocode(lat, lon, user_language)
-                    timezone_id = await api.get_timezone(lat, lon, user_language)
+                    timezone_id = await api.get_timezone(lat, lon, user_language, geocode_data=geocode_raw)
 
                     address_data = {
                         "current_address": api.format_full_address(geocode_raw),
