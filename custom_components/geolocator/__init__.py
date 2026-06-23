@@ -6,7 +6,7 @@ from homeassistant.helpers.typing import ConfigType
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.service import async_register_admin_service
 
-from .const import DOMAIN, SERVICE_SET_TIMEZONE, API_PROVIDER_META
+from .const import DOMAIN, SERVICE_SET_TIMEZONE, SERVICE_UPDATE_LOCATION, API_PROVIDER_META
 from .api.google import GoogleMapsAPI
 from .api.opencage import OpenCageAPI
 from .api.geonames import GeoNamesAPI
@@ -174,7 +174,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 
     hass.data[DOMAIN][entry.entry_id]["update_func"] = async_update_location_service
-    hass.services.async_register(DOMAIN, "update_location", async_update_location_service)
+    hass.services.async_register(DOMAIN, SERVICE_UPDATE_LOCATION, async_update_location_service)
 
     await hass.config_entries.async_forward_entry_setups(entry, ["sensor"])
 
@@ -186,6 +186,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     unload_ok = await hass.config_entries.async_unload_platforms(entry, ["sensor"])
     if unload_ok:
         hass.data[DOMAIN].pop(entry.entry_id, None)
+        hass.services.async_remove(DOMAIN, SERVICE_UPDATE_LOCATION)
     return unload_ok
 
 async def async_reload_entry(hass: HomeAssistant, entry: ConfigEntry) -> None:
