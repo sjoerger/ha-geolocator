@@ -3,20 +3,20 @@
 <img width="150" alt="GeoLocator" src="https://github.com/SmartyVan/hass-geolocator/blob/main/logo/icon.png?raw=true"/>
 
 
-# GeoLocator
+# HA GeoLocator
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/hacs/integration)
 [![GitHub release](https://img.shields.io/github/v/release/sjoerger/hass-geolocator)](https://github.com/sjoerger/hass-geolocator/releases)
 
 ### WHERE are we
-**GeoLocator** is a Home Assistant custom integration that retrieves current reverse geocoded location sensor data based on `zone.home` GPS coordinate attributes using one of several provided reverse geocode API options.
+**HA GeoLocator** is a Home Assistant custom integration that retrieves current reverse geocoded location sensor data based on `zone.home` GPS coordinate attributes using one of several provided reverse geocode API options.
 
 ### WHEN are we
 This integration also solves a major problem for mobile Home Assistant servers: it creates a service to update the Home Assistant system timezone programatically. An accurate system timezone is crucial for Automation Timing, Sun events, Template rendering (`now()`, `today_at()`, `as_timestamp()`), and Dashboard time display.
 
 ### OFFLINE happens
-Designed specifically for moving vehicles (vans, RVs, boats) that *MAY* not always have an internet connection, GeoLocator falls back to a local python library ([timezonefinder](https://pypi.org/project/timezonefinder/)) when no network connection is available. This method is less accurate, but works offline.
+Designed specifically for moving vehicles (vans, RVs, boats) that *MAY* not always have an internet connection, HA GeoLocator falls back to a local python library ([timezonefinder](https://pypi.org/project/timezonefinder/)) when no network connection is available. This method is less accurate, but works offline.
 
-*Optionally*: GeoLocator can be used in `Offline` mode to force the use of the local timezonefinder library at all times to set system timezone — in this mode, no reverse geocode data will be retrived.
+*Optionally*: HA GeoLocator can be used in `Offline` mode to force the use of the local timezonefinder library at all times to set system timezone — in this mode, no reverse geocode data will be retrived.
 
 ---
 
@@ -29,19 +29,19 @@ This integration is not yet available in the HACS default store, however you can
 [![Open this repository in your Home Assistant instance.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=sjoerger&repository=hass-geolocator&category=integration)
 
 
-1. Click "Open HACS Repository" button above and install GeoLocator
+1. Click "Open HACS Repository" button above and install HA GeoLocator
 2. Restart Home Assistant
 3. Navigate to Settings > Devices & Services
 4. Click **Add Integration** at the bottom
-5. Search for **GeoLocator**
+5. Search for **HA GeoLocator**
 
 ### Or, Manual Installation
 
 1. Download the source code of the [latest release](https://github.com/sjoerger/hass-geolocator/releases).
 2. Unzip the source code download.
-3. Copy **geolocator** from the **custom_components** directory you just downloaded to your Home Assistant **custom_components** directory:
+3. Copy **ha_geolocator** from the **custom_components** directory you just downloaded to your Home Assistant **custom_components** directory:
    ```
-   config/custom_components/geolocator/
+   config/custom_components/ha_geolocator/
    ```
 
 4. Restart Home Assistant.
@@ -63,9 +63,9 @@ The source of the coordinates can be from any sensor or input you have available
 *Step 1 does not rely on this custom component, but is a necessary step to ensure your `zone.home` has current GPS coordinates.*
 
 ### Step 2.
-Call custom service: `geolocator.update_location`:
+Call custom service: `ha_geolocator.update_location`:
 ```yaml
-action: geolocator.update_location
+action: ha_geolocator.update_location
 data: {}
 ```
 
@@ -74,7 +74,7 @@ This will fetch the Reverse Geocode data and populate sensors (if using an API) 
 **Example Automation:**\
 This is a very basic automation. Consider using conditions to restrict location information udpates only when vehicle is (or has been) moving.
 ```yaml
-alias: "GeoLocator: Update Location"
+alias: "HA GeoLocator: Update Location"
 description: "Fetch Reverse Geocode and Timezone ID from API when zone.home is updated."
 triggers:
   - trigger: state
@@ -82,7 +82,7 @@ triggers:
       - zone.home
 conditions: []
 actions:
-  - action: geolocator.update_location
+  - action: ha_geolocator.update_location
     metadata: {}
     data: {}
 mode: single
@@ -91,7 +91,7 @@ mode: single
 ### 🚨 Important:
 By design, this component does **NOT** automatically poll.\
 You decide how often you want to update the GPS coordinate attributes of `zone.home`.\
-You also decide how often to call `geolocator.update_location`.\
+You also decide how often to call `ha_geolocator.update_location`.\
 This flexibility allows for maximum control over polling rates, and updates.
 
 ---
@@ -100,17 +100,17 @@ This flexibility allows for maximum control over polling rates, and updates.
 
 | Entity | Description | Generated by |
 |:-------|:------------|:------|
-| `sensor.geolocator_current_address`* | Formatted location address | API |
-| `sensor.geolocator_city`* | City name | API |
-| `sensor.geolocator_state`* | State name | API |
-| `sensor.geolocator_country`* | Country name | API |
-| `sensor.geolocator_timezone_id` | Timezone ID (`America/Chicago`) | API / Local Fallback |
-| `sensor.geolocator_timezone` | Timezone (`Central Daylight Time`) | Local |
-| `sensor.geolocator_timezone_abbreviation` | Timezone Abbreviation (`CDT`) | Local |
-| `sensor.geolocator_data_source` | API provider used for current data (*or Offline Fallback*)  | Local |
-| `sensor.geolocator_plus_code` | Full [Plus Code](https://maps.google.com/pluscodes/) for current location | Local |
+| `sensor.ha_geolocator_current_address`* | Formatted location address | API |
+| `sensor.ha_geolocator_city`* | City name | API |
+| `sensor.ha_geolocator_state`* | State name | API |
+| `sensor.ha_geolocator_country`* | Country name | API |
+| `sensor.ha_geolocator_timezone_id` | Timezone ID (`America/Chicago`) | API / Local Fallback |
+| `sensor.ha_geolocator_timezone` | Timezone (`Central Daylight Time`) | Local |
+| `sensor.ha_geolocator_timezone_abbreviation` | Timezone Abbreviation (`CDT`) | Local |
+| `sensor.ha_geolocator_data_source` | API provider used for current data (*or Offline Fallback*)  | Local |
+| `sensor.ha_geolocator_plus_code` | Full [Plus Code](https://maps.google.com/pluscodes/) for current location | Local |
 
-\* *these sensors are only created/updated when using an API - they will also be unavailable when GeoLocator falls back to the local Python library*
+\* *these sensors are only created/updated when using an API - they will also be unavailable when HA GeoLocator falls back to the local Python library*
 
 > **Offline mode** creates `timezone_id`, `timezone_abbreviation`, `timezone`, `plus_code`, and `data_source` sensors. Address-based sensors (`current_address`, `city`, `state`, `country`) require an API and are not available offline.
 
@@ -136,14 +136,14 @@ These are the currently supported APIs. Feel free to submit pull requests for ot
 
 | Service | Description |
 |:--------|:------------|
-| `geolocator.update_location` | Fetch the latest location and timezone from your chosen API, update sensors, and automatically update Home Assistant's timezone. |
-| `geolocator.set_home_timezone` | Used internally by the component to set Home Assistant system timezone using a provided IANA Timezone ID (e.g. `America/New_York`). Can be useful on its own if you acquire your Timezone ID elsewhere and simply need to set system timezone. |
+| `ha_geolocator.update_location` | Fetch the latest location and timezone from your chosen API, update sensors, and automatically update Home Assistant's timezone. |
+| `ha_geolocator.set_home_timezone` | Used internally by the component to set Home Assistant system timezone using a provided IANA Timezone ID (e.g. `America/New_York`). Can be useful on its own if you acquire your Timezone ID elsewhere and simply need to set system timezone. |
 
 ---
 
 ## 📋 Notes
 
-- This integration **only updates location and timezone data when manually triggered using the `geolocator.update_location` service** — no automatic background polling.
+- This integration **only updates location and timezone data when manually triggered using the `ha_geolocator.update_location` service** — no automatic background polling.
 - API costs are your responsibility, but most services have generous quotas on their free tiers.
 - Intended for users who move frequently across regions and want dashboard and system timezone awareness.
 
